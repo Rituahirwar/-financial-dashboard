@@ -396,11 +396,12 @@ class AdvancedPortfolioAnalyzer:
 
 # Use an environment variable for the database URL in production,
 # with a fallback to a local file for development.
-DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./premium_financial_dashboard.db")
-
-# Heroku/Render might use "postgres://", but SQLAlchemy prefers "postgresql://"
-if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+if "REPL_ID" in os.environ or "RENDER" in os.environ:
+    # Use an in-memory SQLite database on cloud platforms for a guaranteed start.
+    # Data will not persist across restarts.
+    DATABASE_URL = "sqlite:///:memory:"
+else:
+    DATABASE_URL = "sqlite:///./premium_financial_dashboard.db"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
