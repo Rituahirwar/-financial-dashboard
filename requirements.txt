@@ -8,6 +8,7 @@ nest-asyncio
 numpy
 pandas
 plotly
+psycopg2-binary
 SQLAlchemy
 uvicorn
 yfinance

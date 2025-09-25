@@ -396,13 +396,10 @@ class AdvancedPortfolioAnalyzer:
 
 # Use an environment variable for the database URL in production,
 # with a fallback to a local file for development.
-DATA_DIR = os.environ.get("RENDER_DATA_DIR", ".")
-DATABASE_URL = f"sqlite:///{os.path.join(DATA_DIR, 'premium_financial_dashboard.db')}"
+DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./premium_financial_dashboard.db")
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base.metadata.create_all(bind=engine)
 
 def get_db():
     db = SessionLocal()
@@ -420,6 +417,11 @@ app = FastAPI(
     description="Professional-grade portfolio management system",
     version="2.0.0"
 )
+
+@app.on_event("startup")
+def on_startup():
+    # Create the database tables
+    Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
