@@ -396,7 +396,7 @@ class AdvancedPortfolioAnalyzer:
 
 # Use an environment variable for the database URL in production,
 # with a fallback to a local file for development.
-if "REPL_ID" in os.environ or "RENDER" in os.environ:
+if "REPL_ID" in os.environ or "RENDER" in os.environ or "DETA_RUNTIME" in os.environ:
     # Use an in-memory SQLite database on cloud platforms for a guaranteed start.
     # Data will not persist across restarts.
     DATABASE_URL = "sqlite:///:memory:"
