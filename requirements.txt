@@ -1,0 +1,13 @@
+aiohttp
+dash
+dash-bootstrap-components
+dash-table
+fastapi
+gunicorn
+nest-asyncio
+numpy
+pandas
+plotly
+SQLAlchemy
+uvicorn
+yfinance
